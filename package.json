@@ -1,0 +1,10 @@
+{
+    "name": "api.calcoola",
+    "description": "calcula RESTful api",
+    "version": "0.0.1",
+    "author": "Polad Mirzayev",
+    "dependencies": {
+        "express": "3.x",
+        "rethinkdb": ">=1.11.0"
+    }
+}
