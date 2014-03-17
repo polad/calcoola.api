@@ -1,5 +1,6 @@
 Procfile
-server.js
 node_modules
 logs/*
-tests/run.sh
+src/app/tests/run
+run_forever
+run_server
