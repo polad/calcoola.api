@@ -7,6 +7,7 @@ env:
     # please get your own free key if you want to test yourself
     - SAUCE_USERNAME: polad
     - SAUCE_ACCESS_KEY: 6dc04139-8efd-4f79-b66a-a23964b4ee15
+    - BASE_DIR: .
 # This extra install section is only necessary if your project has already installed AMD dependencies like Dojo using
 # npm, since AMD path resolution does not follow Node.js path resolution rules but npm does not know this
 install:
