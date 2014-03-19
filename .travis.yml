@@ -14,4 +14,4 @@ install:
   - cd node_modules/intern
   - npm install --production
   - cd ../..
-script: node node_modules/intern/runner.js config=src/app/tests/intern
+script: node node_modules/.bin/intern-client config=src/app/tests/intern
