@@ -1,19 +1,31 @@
 define([
     "dojo/_base/declare",
-    "app/mappers/QueryRunner"
-], function (declare, QueryRunner) {
+    "dojo/Deferred"
+], function (declare, Deferred) {
     return declare(null, {
+        
+        /**
+         * app/mappers/QueryRunner
+         */
+        queryRunner: null,
+        
+        constructor: function(attributes) {
+            declare.safeMixin(this, attributes);
+        },
+        
         /**
          * @return dojo/_base/Deferred
          */
         getByName: function (name) {
-            return this._buildQueryRunner().run(function (db, r) {
-                return db.table('calculators').filter(r.row('name').match("(?i)"+name));
-            });
-        },
-        
-        _buildQueryRunner: function() {
-            return new QueryRunner();
+            if (this.queryRunner) {
+                return this.queryRunner.run(function (db, r) {
+                    return db.table("calculators").filter(r.row("name").match("(?i)"+name));
+                });
+            } else {
+                var deferred = new Deferred();
+                deferred.resolve([]);
+                return deferred;
+            }
         }
     });
 });

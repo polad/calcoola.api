@@ -1,13 +1,26 @@
 define([
     "intern!bdd",
-    "intern/chai!expect",
-    "app/mappers/Calculator"
-], function(bdd, expect, CalculatorMapper) {
+    "app/tests/Mockery",
+    "dojo/Deferred",
+    "app/mappers/Calculator",
+    "app/mappers/QueryRunner"
+], function(bdd, Mockery, Deferred, CalculatorMapper, QueryRunner) {
     with (bdd) {
-        describe ('calculator mapper', function () {
-            it ('should return calculators by name', function () {
+        describe ("CalculatorMapper", function () {
+            
+            var mockery = null;
+            
+            beforeEach(function() {
+                mockery = Mockery.sandbox.create();
+            });
+            
+            afterEach(function() {
+                mockery.verifyAndRestore();
+            });
+            
+            it ("Should return calculators by name", function () {
                 // Given
-                var nameToSearch = "test calculator";
+                var nameToSearch = "test calculators";
                 var matchingCalculators = [{
                     name: "test calculator"
                 }, {
@@ -15,18 +28,53 @@ define([
                 }, {
                     name: "test calculator again"
                 }];
-                var dbConn = {};
+
+                var deferred = new Deferred();
                 
-                var calculatorMapper = new CalculatorMapper(dbConn);
+                var table = { filter: function(filter) {} };
+                mockery.mock(table).expects("filter").once();
+                
+                var db = { table: function(tableName) {} };
+                mockery.mock(db).
+                    expects("table").
+                    once().
+                    withExactArgs("calculators").
+                    returns(table);
+                
+                var row = { match: function(pattern) {} };
+                mockery.mock(row).
+                    expects("match").
+                    once().
+                    withExactArgs("(?i)"+nameToSearch);
+                
+                var r = { row: function(property) {} };
+                mockery.mock(r).
+                    expects("row").
+                    once().
+                    withExactArgs("name").
+                    returns(row);
+                
+                var queryRunner = new QueryRunner();
+                mockery.mock(queryRunner).
+                    expects("run").
+                    once().
+                    withExactArgs(sinon.match.func).
+                    callsArgWith(0, db, r).
+                    returns(deferred);
+                
+                var calculatorMapper = new CalculatorMapper({ queryRunner: queryRunner });
                 
                 // When
-                var result = calculatorMapper.getByName(nameToSearch).
+                calculatorMapper.getByName(nameToSearch).
                     then(function (calculators) {
-                        expect(calculators).to.be.an("array");
                         calculators.forEach(function (calculator) {
-                            expect(calculator.name).to.contain(nameToSearch);
+                            calculator.name.should.contain(nameToSearch);
                         });
                     });
+                deferred.resolve(matchingCalculators);
+                
+                // Then
+                mockery.verifyAndRestore();
             });
         });
     };
