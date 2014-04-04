@@ -1,6 +1,6 @@
 define({
-    proxyPort: 9009,
-    proxyUrl: "http://localhost:9009/",
+    proxyPort: 9000,
+    proxyUrl: "http://localhost:9000/",
     capabilities: {
         "selenium-version": "2.37.0"
     },
@@ -10,7 +10,7 @@ define({
     useSauceConnect: true,
     webdriver: {
         host: "localhost",
-        port: 4444,
+        port: 4445,
         username: process.env.SAUCE_USERNAME,
         accessKey: process.env.SAUCE_ACCESS_KEY
     },
