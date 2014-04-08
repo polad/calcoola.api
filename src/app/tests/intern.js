@@ -11,6 +11,7 @@ define({
     },
     suites: [
         "app/tests/controllers/Calculator",
-        "app/tests/mappers/Calculator"
+        "app/tests/mappers/Calculator",
+        "app/tests/mappers/QueryRunner"
     ]
 });
