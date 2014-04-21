@@ -19,7 +19,10 @@ define([
         getByName: function (name) {
             if (this.queryRunner) {
                 return this.queryRunner.run(function (db, r) {
-                    return db.table("calculators").filter(r.row("name").match("(?i)"+name));
+                    return db.table("calculators").
+                        filter(r.row("name").match("(?i)"+name)).
+                        orderBy("name").
+                        limit(100);
                 });
             } else {
                 var deferred = new Deferred();

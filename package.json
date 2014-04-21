@@ -9,6 +9,8 @@
   },
   "devDependencies": {
       "intern": "=1.4.0",
-      "sinon": ">=1.9.0"
+      "sinon": ">=1.9.0",
+      "chai-things": ">=0.2.0",
+      "chai-as-promised": ">=4.1.1"
   }
 }

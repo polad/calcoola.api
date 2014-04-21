@@ -1,81 +1,130 @@
 define([
     "intern!bdd",
+    "intern/chai!should",
     "app/tests/Mockery",
     "dojo/Deferred",
     "app/mappers/Calculator",
     "app/mappers/QueryRunner"
-], function(bdd, Mockery, Deferred, CalculatorMapper, QueryRunner) {
+], function(bdd, should, Mockery, Deferred, CalculatorMapper, QueryRunner) {
+    should();
     with (bdd) {
         describe ("CalculatorMapper", function () {
             
-            var mockery = null;
+            var table, db, row, r, queryRunner,
+            calculatorMapper, deferredFromQueryRunner,
+            mockery = null,
+            nameToSearch = "test calculator",
+            matchingCalculators = [{
+                name: "test calculator"
+            }, {
+                name: "another test calculator"
+            }, {
+                name: "test calculator again"
+            }];
             
             beforeEach(function() {
                 mockery = Mockery.sandbox.create();
-            });
-            
-            afterEach(function() {
-                mockery.verifyAndRestore();
-            });
-            
-            it ("Should return calculators by name", function () {
-                // Given
-                var nameToSearch = "test calculators";
-                var matchingCalculators = [{
-                    name: "test calculator"
-                }, {
-                    name: "another test calculator"
-                }, {
-                    name: "test calculator again"
-                }];
 
-                var deferred = new Deferred();
+                // Given
+                deferredFromQueryRunner = new Deferred();
                 
-                var table = { filter: function(filter) {} };
-                mockery.mock(table).expects("filter").once();
+                row = { match: function(pattern) {} };
                 
-                var db = { table: function(tableName) {} };
+                r = { row: function(property) { return row; } };
+                
+                table = {
+                    filter: function(filter) { return table; },
+                    orderBy: function(key) { return table; },
+                    limit: function(n) { return table; }
+                };
+                
+                db = { table: function(tableName) { return table; } };
                 mockery.mock(db).
                     expects("table").
                     once().
                     withExactArgs("calculators").
                     returns(table);
                 
-                var row = { match: function(pattern) {} };
+                queryRunner = new QueryRunner();
+                mockery.mock(queryRunner).
+                    expects("run").
+                    once().
+                    withExactArgs(sinon.match.func).
+                    callsArgWith(0, db, r).
+                    returns(deferredFromQueryRunner);
+                
+                calculatorMapper = new CalculatorMapper({
+                    queryRunner: queryRunner
+                });
+            });
+            
+            afterEach(function() {
+                mockery.verifyAndRestore();
+            });
+            
+            it ("Should return calculators matched by name", function () {
+                var dfd = this.async(3000);
+                
+                // Given
                 mockery.mock(row).
                     expects("match").
                     once().
                     withExactArgs("(?i)"+nameToSearch);
                 
-                var r = { row: function(property) {} };
                 mockery.mock(r).
                     expects("row").
                     once().
                     withExactArgs("name").
                     returns(row);
                 
-                var queryRunner = new QueryRunner();
-                mockery.mock(queryRunner).
-                    expects("run").
+                mockery.mock(table).
+                    expects("filter").
                     once().
-                    withExactArgs(sinon.match.func).
-                    callsArgWith(0, db, r).
-                    returns(deferred);
-                
-                var calculatorMapper = new CalculatorMapper({ queryRunner: queryRunner });
+                    returns(table);
                 
                 // When
                 calculatorMapper.getByName(nameToSearch).
-                    then(function (calculators) {
+                    then(dfd.callback(function (calculators) {
                         calculators.forEach(function (calculator) {
                             calculator.name.should.contain(nameToSearch);
                         });
-                    });
-                deferred.resolve(matchingCalculators);
+                    }), dfd.reject.bind(dfd));
+                deferredFromQueryRunner.resolve(matchingCalculators);
+                
+                // Then
+                mockery.verifyAndRestore();
+                
+                return dfd;
+            });
+            
+            it ("Should return calculators ordered by name", function() {
+                // Given
+                mockery.mock(table).
+                    expects("orderBy").
+                    once().
+                    withExactArgs("name").
+                    returns(table);
+                
+                // When
+                calculatorMapper.getByName(nameToSearch);
+                
+                // Then
+                mockery.verifyAndRestore();
+            });
+            
+            it ("Should return maximum 100 calculators per search results", function() {
+                // Given
+                mockery.mock(table).
+                    expects("limit").
+                    withExactArgs(100).
+                    returns(table);
+                
+                // When
+                calculatorMapper.getByName(nameToSearch);
                 
                 // Then
                 mockery.verifyAndRestore();
             });
         });
     };
-})
+});

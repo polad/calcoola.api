@@ -55,6 +55,7 @@ define([
                 });
                 
                 it ("Should call success callback on success", function() {
+                    // Given
                     var cursor = { toArray: function() {} };
                     mockery.mock(cursor).
                         expects("toArray").
@@ -65,6 +66,7 @@ define([
                         once().
                         callsArgWith(1, null, cursor);
 
+                    // When
                     try {
                         queryRunner.run(queryCallback).then(successCallback, errCallback);
                     } catch(e) {
@@ -79,10 +81,12 @@ define([
                 });
 
                 it ("Should call error callback on error", function() {
+                    // Given
                     queryCallbackResultMock.expects("run").
                         once().
                         callsArgWith(1, "error", {});
                     
+                    // When
                     try {
                         queryRunner.run(queryCallback).then(successCallback, errCallback);
                     } catch(e) {
