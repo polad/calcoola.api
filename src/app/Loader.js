@@ -1,13 +1,9 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/node!rethinkdb",
-    "app/config",
-    "app/controllers/Root",
-    "app/controllers/Calculator",
-    "app/mappers/Calculator",
-    "app/mappers/QueryRunner"
-], function(declare, lang, rethinkdb, appConfig, RootController, CalculatorController, CalculatorMapper, QueryRunner) {
+    "app/services/controllers/Root",
+    "app/services/controllers/Calculator"
+], function(declare, lang, rootController, calculatorController) {
     return declare(null, {
         app: null,
         
@@ -19,30 +15,8 @@ define([
         },
         
         load: function(app) {
-            var rootController = this._buildRootController();
-            
-            var queryRunner = this._buildQueryRunner({ rethinkdb: rethinkdb, dbConnection: appConfig.dbConnection });
-            var calculatorMapper = this._buildCalculatorMapper({ queryRunner: queryRunner });
-            var calculatorController = this._buildCalculatorController({ calculatorMapper: calculatorMapper });
-            
             app.get("/", lang.hitch(rootController, "defaultAction"));
             app.get("/calculators", lang.hitch(calculatorController, "getByName"));
-        },
-        
-        _buildRootController: function(attributes) {
-            return new RootController(attributes);
-        },
-        
-        _buildCalculatorController: function(attributes) {
-            return new CalculatorController(attributes);
-        },
-        
-        _buildCalculatorMapper: function(attributes) {
-            return new CalculatorMapper(attributes);
-        },
-        
-        _buildQueryRunner: function(attributes) {
-            return new QueryRunner(attributes);
         }
     });
 });
