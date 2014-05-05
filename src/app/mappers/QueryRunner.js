@@ -18,7 +18,7 @@ define([
          *   database: "xxx"
          * }
          */
-        dbConnection: null,
+        dbConnConfig: null,
         
         constructor: function(attributes) {
             declare.safeMixin(this, attributes);
@@ -29,15 +29,16 @@ define([
          * @throws Error
          */
         run: function (queryCallback) {
-            if (!this.rethinkdb || !this.dbConnection) {
+            if (!this.rethinkdb || !this.dbConnConfig) {
                 throw new Error("No database connection provided.");
             }
             var deferred = new Deferred();
             this.rethinkdb.connect({
-                host: this.dbConnection.host,
-                port: this.dbConnection.port
+                host: this.dbConnConfig.host,
+                port: this.dbConnConfig.port,
+                db: this.dbConnConfig.database
             }, lang.hitch(this, function (err, conn) {
-                queryCallback(this.rethinkdb.db(this.dbConnection.database), this.rethinkdb).
+                queryCallback(this.rethinkdb).
                     run(conn, function(err, cursor) {
                         if (err) {
                             deferred.reject(err);

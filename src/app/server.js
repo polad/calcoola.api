@@ -8,5 +8,5 @@ require([
     var loader = new AppLoader({ app: app });
     
     app.listen(config.appListenPort);
-    console.log('Listening on port 3000');
+    console.log("Listening on port " + config.appListenPort);
 });

@@ -10,7 +10,7 @@ define([
     with (bdd) {
         describe ("CalculatorMapper", function () {
             
-            var table, db, row, r, queryRunner,
+            var table, row, r, rMock, queryRunner,
             calculatorMapper, deferredFromQueryRunner,
             mockery = null,
             nameToSearch = "test calculator",
@@ -28,19 +28,20 @@ define([
                 // Given
                 deferredFromQueryRunner = new Deferred();
                 
-                row = { match: function(pattern) {} };
-                
-                r = { row: function(property) { return row; } };
-                
                 table = {
                     filter: function(filter) { return table; },
                     orderBy: function(key) { return table; },
                     limit: function(n) { return table; }
                 };
                 
-                db = { table: function(tableName) { return table; } };
-                mockery.mock(db).
-                    expects("table").
+                row = { match: function(pattern) {} };
+                
+                r = {
+                    table: function(tableName) { return table; },
+                    row: function(property) { return row; }
+                };
+                rMock = mockery.mock(r);
+                rMock.expects("table").
                     once().
                     withExactArgs("calculators").
                     returns(table);
@@ -50,7 +51,7 @@ define([
                     expects("run").
                     once().
                     withExactArgs(sinon.match.func).
-                    callsArgWith(0, db, r).
+                    callsArgWith(0, r).
                     returns(deferredFromQueryRunner);
                 
                 calculatorMapper = new CalculatorMapper({
@@ -63,7 +64,7 @@ define([
             });
             
             it ("Should return calculators matched by name", function () {
-                var dfd = this.async(3000);
+                var dfd = this.async(1000);
                 
                 // Given
                 mockery.mock(row).
@@ -71,8 +72,7 @@ define([
                     once().
                     withExactArgs("(?i)"+nameToSearch);
                 
-                mockery.mock(r).
-                    expects("row").
+                rMock.expects("row").
                     once().
                     withExactArgs("name").
                     returns(row);

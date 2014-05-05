@@ -20,8 +20,8 @@ define([
             
             describe ("When run a query callback", function() {
                 // Given
-                var rethinkdb, rMock, r_db, queryCallback, queryCallbackResult,
-                queryCallbackResultMock, successCallback, errCallback, queryRunner,
+                var rethinkdb, conn, queryCallback, queryCallbackResult,
+                successCallback, errCallback, queryRunner,
                 dbConnection = {
                     host: "localhost",
                     port: 28015,
@@ -33,24 +33,19 @@ define([
                         connect: function() {},
                         db: function() {}
                     };
-                    rMock = mockery.mock(rethinkdb);
-                    rMock.expects("connect").
+                    mockery.mock(rethinkdb).
+                        expects("connect").
                         once().
-                        callsArg(1);
-                    r_db = {};
-                    rMock.expects("db").
-                        once().
-                        withExactArgs(dbConnection.database).
-                        returns(r_db);
+                        callsArgWith(1, null, conn);
+                    
                     queryCallbackResult = { run: function() {} };
-                    queryCallbackResultMock = mockery.mock(queryCallbackResult);
                     queryCallback = mockery.stub().returns(queryCallbackResult);
                     successCallback = mockery.spy();
                     errCallback = mockery.spy();
                     
                     queryRunner = new QueryRunner({
                         rethinkdb: rethinkdb,
-                        dbConnection: dbConnection
+                        dbConnConfig: dbConnection
                     });
                 });
                 
@@ -62,7 +57,8 @@ define([
                         once().
                         callsArg(0);
                     
-                    queryCallbackResultMock.expects("run").
+                    mockery.mock(queryCallbackResult).
+                        expects("run").
                         once().
                         callsArgWith(1, null, cursor);
 
@@ -74,7 +70,7 @@ define([
                     
                     // Then
                     queryCallback.calledOnce.should.be.true;
-                    queryCallback.calledWithExactly(r_db, rethinkdb).should.be.true;
+                    queryCallback.calledWithExactly(rethinkdb).should.be.true;
                     successCallback.calledOnce.should.be.true;
                     errCallback.called.should.be.false;
                     mockery.verifyAndRestore();
@@ -82,7 +78,8 @@ define([
 
                 it ("Should call error callback on error", function() {
                     // Given
-                    queryCallbackResultMock.expects("run").
+                    mockery.mock(queryCallbackResult).
+                        expects("run").
                         once().
                         callsArgWith(1, "error", {});
                     
@@ -94,7 +91,7 @@ define([
                     
                     // Then
                     queryCallback.calledOnce.should.be.true;
-                    queryCallback.calledWithExactly(r_db, rethinkdb).should.be.true;
+                    queryCallback.calledWithExactly(rethinkdb).should.be.true;
                     successCallback.called.should.be.false;
                     errCallback.calledOnce.should.be.true;
                     mockery.verifyAndRestore();

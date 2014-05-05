@@ -5,6 +5,6 @@ define([
 ], function(rethinkdb, appConfig, QueryRunner) {
     return new QueryRunner({
         rethinkdb: rethinkdb,
-        dbConnection: appConfig.dbConnection
+        dbConnConfig: appConfig.dbConnection
     });
 });

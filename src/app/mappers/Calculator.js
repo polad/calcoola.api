@@ -18,8 +18,8 @@ define([
          */
         getByName: function (name) {
             if (this.queryRunner) {
-                return this.queryRunner.run(function (db, r) {
-                    return db.table("calculators").
+                return this.queryRunner.run(function (r) {
+                    return r.table("calculators").
                         filter(r.row("name").match("(?i)"+name)).
                         orderBy("name").
                         limit(100);
