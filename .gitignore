@@ -1,6 +1,8 @@
 Procfile
 node_modules
 logs/*
+src/migrate
+.migrate
 src/app/tests/run
 run_forever
 run_server
