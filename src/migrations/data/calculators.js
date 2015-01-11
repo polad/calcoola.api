@@ -711,4 +711,158 @@ exports.calculators = [{
     uom: "lin-ft/ft&sup3",
     formula: "183.35/((args.a*args.a)-(args.b*args.b))",
     decimals: 5
+}, {
+    name: "Annular capacity (bbl/ft) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: bbl/ft = ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2)) / 1029.4",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "bbl/ft",
+    formula: "((args.a*args.a)-((args.b*args.b)+(args.c*args.c)))/1029.4",
+    decimals: 5
+}, {
+    name: "Annular capacity (ft/bbl) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: ft/bbl = 1029.4 / ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2))",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "ft/bbl",
+    formula: "1029.4/((args.a*args.a)-((args.b*args.b)+(args.c*args.c)))",
+    decimals: 5
+}, {
+    name: "Annular capacity (gal/ft) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: gal/ft = ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2)) / 24.51",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "gal/ft",
+    formula: "((args.a*args.a)-((args.b*args.b)+(args.c*args.c)))/24.51",
+    decimals: 5
+}, {
+    name: "Annular capacity (ft/gal) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: ft/gal = 24.51 / ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2))",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "ft/gal",
+    formula: "24.51/((args.a*args.a)-((args.b*args.b)+(args.c*args.c)))",
+    decimals: 5
+}, {
+    name: "Annular capacity (ft&sup3/lin-ft) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: ft&sup3/lin-ft = ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2 + (tubing #3, in)&sup2)) / 183.35",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        d: {
+            label: "Tubing #3",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "ft&sup3/lin-ft",
+    formula: "((args.a*args.a)-((args.b*args.b)+(args.c*args.c)+(args.d*args.d)))/183.35",
+    decimals: 5
+}, {
+    name: "Annular capacity (lin-ft/ft&sup3) between casing and multiple strings of tubing",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: lin-ft/ft&sup3 = 183.35 / ((casing, in)&sup2 - ((tubing #1, in)&sup2 + (tubing #2, in)&sup2 + (tubing #3, in)&sup2))",
+    args: {
+        a: {
+            label: "Casing",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        b: {
+            label: "Tubing #1",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        c: {
+            label: "Tubing #2",
+            uom: "in",
+            defaultValue: 0.0
+        },
+        d: {
+            label: "Tubing #3",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "lin-ft/ft&sup3",
+    formula: "183.35/((args.a*args.a)-((args.b*args.b)+(args.c*args.c)+(args.d*args.d)))",
+    decimals: 5
 }];
