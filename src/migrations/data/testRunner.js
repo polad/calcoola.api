@@ -7,11 +7,12 @@ var noColor = function (text) { return text; };
 
 var printTest = function (test, color) {
     color = color || noColor;
-    console.log("...");
-    console.log("name: "+test.name);
-    console.log("status: "+color(test.status));
+    console.log("|-");
+    var pad = "       ";
+    var status = (pad + test.status).slice(-pad.length)
+    console.log("| "+color(status)+": "+test.name);
     if (test.message) {
-        console.log("reason: "+color(test.message));
+        console.log("| "+pad+": "+color(test.message));
     }
 };
 
@@ -51,7 +52,7 @@ var testCalculator = function (calculator) {
             result.status = "PASSED";
         } else {
             result.status = "FAILED";
-            result.message = "Expected result: "+test.result+" actual was: "+actualResult;
+            result.message = "Expected result ("+test.result+") actual was ("+actualResult+")";
         }
     }
     return result;
