@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var data = require("./calculators");
+var testRunner = require("./testRunner");
+testRunner.run(data.calculators);
