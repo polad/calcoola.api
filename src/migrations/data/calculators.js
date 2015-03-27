@@ -10,7 +10,13 @@ exports.calculators = [{
     },
     uom: "psi/ft",
     formula: "args.a*0.052",
-    description: "formula: psi/ft = (mud weight, ppg) x 0.052"
+    description: "formula: psi/ft = (mud weight, ppg) x 0.052",
+    test: {
+        args: {
+            a: 12.0
+        },
+        result: 0.62
+    }
 }, {
     name: "Pressure gradient using mud weight, lb/ft&sup3",
     categories: [ "Basic Drilling Formulas", "Pressure Gradient" ],
@@ -865,4 +871,44 @@ exports.calculators = [{
     uom: "lin-ft/ft&sup3",
     formula: "183.35/((args.a*args.a)-((args.b*args.b)+(args.c*args.c)+(args.d*args.d)))",
     decimals: 5
+}, {
+    name: "Capacity (bbl/ft) of tubulars and open hole: any cylindrical object",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: bbl/ft = (D, in)&sup2 / 1029.4",
+    args: {
+        a: {
+            label: "Hole Size",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "bbl/ft",
+    formula: "(args.a*args.a)/1029.4",
+    decimals: 5,
+    test: {
+        args: {
+            a: 12.25
+        },
+        result: 0.14578
+    }
+}, {
+    name: "Capacity (ft/bbl) of tubulars and open hole: any cylindrical object",
+    categories: [ "Basic Drilling Formulas", "Capacity Formulas" ],
+    description: "formula: ft/bbl = 1029.4 / (D, in)&sup2",
+    args: {
+        a: {
+            label: "Hole Size",
+            uom: "in",
+            defaultValue: 0.0
+        }
+    },
+    uom: "ft/bbl",
+    formula: "1029.4/(args.a*args.a)",
+    decimals: 5,
+    test: {
+        args: {
+            a: 12.25
+        },
+        result: 6.85981
+    }
 }];
