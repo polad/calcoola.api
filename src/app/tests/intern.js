@@ -6,7 +6,7 @@ define({
     excludeInstrumentation: /^(?:dojo|sinon)\//,
     reporters: [ "console" ],
     loader: {
-        baseUrl: process.env.BASE_DIR+"/src/",
+        baseUrl: "src/",
         packages: [
             { name: "intern", location: "../node_modules/intern" },
             { name: "dojo", location: "dojo" },

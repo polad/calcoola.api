@@ -1,23 +1,32 @@
 {
-    "name": "api.calcoola",
-    "description": "calcula RESTful api",
-    "version": "0.0.1",
-    "author": "Polad Mirzayev",
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/polad/calcoola.api.git"
-    },
-    "dependencies": {
-        "express": "3.x",
-        "when": ">=3.1.0",
-        "migrate": ">=0.1.4",
-        "rethinkdb": ">=1.11.0"
-    },
-    "devDependencies": {
-        "intern": "=1.4.0",
-        "sinon": ">=1.9.0",
-        "chai-things": ">=0.2.0",
-        "chai-as-promised": ">=4.1.1",
-        "chalk": ">=0.5.1"
-    }
+  "name": "api.calcoola",
+  "description": "calcula RESTful api",
+  "version": "0.0.2",
+  "author": "Polad Mirzayev",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/polad/calcoola.api.git"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "when": ">=3.1.0",
+    "migrate": ">=0.1.4",
+    "rethinkdb": ">=1.11.0"
+  },
+  "devDependencies": {
+    "intern": ">=1.4.0",
+    "sinon": "=1.9.0",
+    "chai-things": ">=0.2.0",
+    "chai-as-promised": ">=4.1.1",
+    "chalk": ">=0.5.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "intern-client config=src/app/tests/intern"
+  },
+  "bugs": {
+    "url": "https://github.com/polad/calcoola.api/issues"
+  },
+  "main": "server.js",
+  "license": "BSD-2-Clause"
 }
