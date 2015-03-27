@@ -39,6 +39,10 @@ var buildFormulaFor = function (calculator) {
     return eval('(function(args){return '+calculator.formula+';})');
 };
 
+var round = function (value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+};
+
 var testCalculator = function (calculator) {
     var result = {
         name: calculator.name,
@@ -48,6 +52,7 @@ var testCalculator = function (calculator) {
     var test = calculator.test;
     if (test && test.args && test.result != undefined) {
         var actualResult = buildFormulaFor(calculator)(test.args);
+        actualResult = round(actualResult, calculator.decimals || 2);
         if (test.result == actualResult) {
             result.status = "PASSED";
         } else {
