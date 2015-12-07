@@ -1,6 +1,0 @@
-[submodule "src/dojo"]
-	path = src/dojo
-	url = https://github.com/dojo/dojo
-[submodule "src/util"]
-	path = src/util
-	url = https://github.com/dojo/util
