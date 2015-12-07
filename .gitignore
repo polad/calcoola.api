@@ -3,6 +3,6 @@ node_modules
 logs/*
 src/migrate
 .migrate
-src/app/tests/run
-run_forever
-run_server
+bin/test
+bin/run_forever
+bin/run_server

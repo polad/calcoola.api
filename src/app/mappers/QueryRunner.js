@@ -7,6 +7,9 @@ function run(queryCallback, cb) {
     port: config.dbConnection.port,
     db: config.dbConnection.database
   }, function(err, conn) {
+       if (err) {
+         return cb(err);
+       }
        queryCallback(db).run(
          conn,
          function(err, cursor) {

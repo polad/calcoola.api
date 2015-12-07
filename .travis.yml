@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 0.8
+  - '4.1'
 env:
   global:
     # Sauce Labs are OK with this and it is currently necessary to expose this information for testing pull requests;
@@ -10,7 +10,3 @@ env:
 # npm, since AMD path resolution does not follow Node.js path resolution rules but npm does not know this
 install:
   - npm install
-  - cd node_modules/intern
-  - npm install --production
-  - cd ../..
-script: node_modules/.bin/intern-client config=src/app/tests/intern

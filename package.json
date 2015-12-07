@@ -1,7 +1,7 @@
 {
   "name": "api.calcoola",
-  "description": "calcula RESTful api",
-  "version": "0.0.2",
+  "description": "Calcoola RESTful API",
+  "version": "0.1.0",
   "author": "Polad Mirzayev",
   "repository": {
     "type": "git",
@@ -14,15 +14,18 @@
     "when": ">=3.1.0"
   },
   "devDependencies": {
-    "intern": "=1.7.0",
-    "sinon": "=1.9.0",
-    "chai-things": ">=0.2.0",
-    "chai-as-promised": ">=4.1.1",
-    "chalk": ">=0.5.1"
+    "chai": "^3.4.1",
+    "chalk": "^1.1.1",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2"
+  },
+  "engines": {
+    "node": ">=4.1.1"
   },
   "scripts": {
-    "start": "node server.js",
-    "test": "intern-client config=src/app/tests/intern"
+    "start": "node ./src/app/server.js",
+    "test": "npm run test-node-unit",
+    "test-node-unit": "node_modules/.bin/mocha --require ./src/tests/globals.js --recursive ./src/tests/unit"
   },
   "bugs": {
     "url": "https://github.com/polad/calcoola.api/issues"
