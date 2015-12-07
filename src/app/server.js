@@ -1,12 +1,9 @@
-require([
-    "dojo/node!express",
-    "app/Loader",
-    "app/config"
-], function(express, AppLoader, config) {
-    var app = express();
-    
-    var loader = new AppLoader({ app: app });
-    
-    app.listen(config.appListenPort);
-    console.log("Listening on port " + config.appListenPort);
-});
+var express = require('express');
+var config = require('./config');
+
+var app = express();
+
+app.use('/', require('./routes/index'));
+app.use('/calculators', require('./routes/calculators'));
+
+app.listen(config.appListenPort, 'localhost');
