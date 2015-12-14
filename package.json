@@ -8,6 +8,7 @@
     "url": "http://github.com/polad/calcoola.api.git"
   },
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "migrate": ">=0.1.4",
     "rethinkdb": ">=1.11.0",

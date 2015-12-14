@@ -13,7 +13,6 @@ function round(value, decimals) {
 function testCalculator(calculator) {
     var result = {
         name: calculator.name,
-        message: "",
         status: "SKIPPED"
     };
     var test = calculator.test;
@@ -31,7 +30,7 @@ function testCalculator(calculator) {
 };
 
 function run(calculators, cb) {
-  cb(calculators.map(testCalculator));
+  cb(null, calculators.map(testCalculator));
 };
 
 exports.run = run;
